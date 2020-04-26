@@ -1,0 +1,61 @@
+﻿.grid {
+    --line-color: rgb(36, 36, 36);
+    --thick-line-color: rgb(40, 40, 40);
+    --spacing: 20;
+}
+
+.behavior-node {
+    width: 100px;
+    height: 100px;
+}
+
+.behavior-node #node-border, .behavior-node #title {
+    width: 100%;
+    height: 100%;
+}
+
+.behavior-node #title {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 8px 4px;
+}
+
+.behavior-node .port {
+    justify-content: center;
+    width: 100%;
+    position: absolute;
+    padding: 0;
+    left: 4px;
+}
+
+.behavior-node #title-label {
+    margin: 0;
+    color: white;
+    -unity-font-style: bold;
+}
+
+.behavior-node #collapse-button {
+    display: none;
+}
+
+.behavior-node .port.output {
+    top: 88%;
+}
+
+.behavior-node .port.input {
+    top: -8%;
+}
+
+.behavior-node .port #type {
+    visibility: hidden;
+    width: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.behavior-node #icon {
+    width: 64px;
+    height: 64px;
+    padding: 5%;
+}

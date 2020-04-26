@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 9301ad76454a9ce4ca3bac708c075256
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - m_ViewDataDictionary: {instanceID: 0}
+  - graphStyle: {fileID: 7433441132597879392, guid: 75a34c89823e5f347ace3f75b919db9e,
+      type: 3}
+  - flagIcon: {fileID: 2800000, guid: 8e8caf810380c8840829be54c588e08c, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
