@@ -14,6 +14,7 @@ namespace BehaviorGraphEditor
         public BehaviorGraphWindow graphWindow;
 
         private BehaviorTree behaviorTree;
+        private BehaviorGraphSearchWindow searchWindow;
 
         private Dictionary<Behavior, BehaviorGraphNode> nodeLookUp;
 
@@ -40,6 +41,7 @@ namespace BehaviorGraphEditor
 
             AddBehaviorNodes();
             AddBehaviorConnections();
+            AddSearchWindow();
         }
 
         private BehaviorGraphNode CreateNode(Behavior behavior)
@@ -103,6 +105,18 @@ namespace BehaviorGraphEditor
 
                 behaviorNode.shouldManageBehavior = true;
             });
+        }
+
+        private void AddSearchWindow()
+        {
+            searchWindow = ScriptableObject.CreateInstance<BehaviorGraphSearchWindow>();
+            searchWindow.Initialize(graphWindow, this);
+
+            nodeCreationRequest = (context) =>
+            {
+                var searchWindowContext = new SearchWindowContext(context.screenMousePosition);
+                SearchWindow.Open<BehaviorGraphSearchWindow>(searchWindowContext, searchWindow);
+            };
         }
 
         private void ConnectBehaviors(BehaviorGraphNode parent, BehaviorGraphNode child)
