@@ -29,6 +29,16 @@ namespace BehaviorGraphEditor
         private BehaviorNodePort outPort;
         public BehaviorNodePort OutPort => outPort;
 
+        public BehaviorGraphNode ParentNode
+        {
+            get
+            {
+                if (InPort.connected) return InPort.connections.FirstOrDefault().output.node as BehaviorGraphNode;
+                return null;
+            }
+        }
+        public List<BehaviorGraphNode> ChildNodes => OutPort.connections.Select(edge => edge.input.node as BehaviorGraphNode).ToList();
+
         public static Vector2 Size = new Vector2(100, 100);
 
         public BehaviorGraphNode(Behavior behavior)
@@ -94,6 +104,8 @@ namespace BehaviorGraphEditor
 
         public void DisconnectChildBehavior(BehaviorGraphNode child)
         {
+            Debug.Log("Disconnect");
+
             if (!shouldManageBehavior) return;
             Behavior.RemoveChild(child.Behavior);
             MarkDirty();
@@ -158,7 +170,7 @@ namespace BehaviorGraphEditor
             {
                 var parentNode = edge.output.node as BehaviorGraphNode;
                 var childNode = edge.input.node as BehaviorGraphNode;
-                Debug.Log("Connecting: " + parentNode.Behavior + " to " + childNode.Behavior);
+                // Debug.Log("Connecting: " + parentNode.Behavior + " to " + childNode.Behavior);
                 parentNode.ConnectChildBehavior(childNode);
             }
         }
@@ -169,7 +181,7 @@ namespace BehaviorGraphEditor
             {
                 var parentNode = edge.output.node as BehaviorGraphNode;
                 var childNode = edge.input.node as BehaviorGraphNode;
-                Debug.Log("Disconnecting: " + parentNode.Behavior + " from " + childNode.Behavior);
+                // Debug.Log("Disconnecting: " + parentNode.Behavior + " from " + childNode.Behavior);
                 parentNode.DisconnectChildBehavior(childNode);
             }
 
