@@ -57,7 +57,7 @@ namespace BehaviorGraphEditor
 
         public static List<BehaviorDescriptor> FindAllBehaviorDescriptors()
         {
-            return FindAssetsByType<BehaviorDescriptor>();
+            return FindAssetsByType<BehaviorGraph.BehaviorDescriptor>();
         }
 
         public static System.Type GetBehaviorType(string name)

@@ -35,6 +35,21 @@ MonoBehaviour:
     editorPosition: {x: 140, y: 360}
   descriptor: {fileID: 0}
   children: []
+--- !u!114 &-4399213983683075323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 729bbdc772f0dfb48978f7cc0e7df5b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  metaData:
+    editorPosition: {x: 260, y: 60}
+  descriptor: {fileID: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0

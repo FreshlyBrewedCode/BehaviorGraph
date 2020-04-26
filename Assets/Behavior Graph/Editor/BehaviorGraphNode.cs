@@ -39,18 +39,27 @@ namespace BehaviorGraphEditor
         }
         public List<BehaviorGraphNode> ChildNodes => OutPort.connections.Select(edge => edge.input.node as BehaviorGraphNode).ToList();
 
+        private BehaviorGraphView graphView;
+        private bool isEntry = false;
+
         public static Vector2 Size = new Vector2(100, 100);
 
-        public BehaviorGraphNode(Behavior behavior)
+        public BehaviorGraphNode(Behavior behavior, BehaviorGraphView graphView)
         {
             this.behavior = behavior;
+            this.graphView = graphView;
             this.descriptor = BehaviorGraphUtility.GetDescriptor(behavior);
 
             Debug.Assert(descriptor != null && behavior != null, "The behavior node needs a valid Behavior and a valid BehaviorDescriptor");
 
+            this.GUID = Guid.NewGuid().ToString();
             this.AddToClassList("behavior-node");
             this.title = descriptor.title;
-            this.GUID = Guid.NewGuid().ToString();
+
+            this.isEntry = Behavior is Entry;
+
+            if (descriptor.color.a != 0)
+                this.titleContainer.style.backgroundColor = descriptor.color;
             this.SetPosition(new Rect(behavior.metaData.editorPosition, Size));
 
 
@@ -62,12 +71,22 @@ namespace BehaviorGraphEditor
 
         private void ConfigurePorts()
         {
-            var inPort = this.InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(float));
-            this.Add(inPort);
+            // Input port
+            var inCap = (Port.Capacity)descriptor.inputCapacity;
+            var inPort = this.InstantiatePort(Orientation.Vertical, Direction.Input, inCap, typeof(float));
+
+            if (descriptor.inputCapacity != BehaviorPortCapacity.None) this.Add(inPort);
             this.inPort = inPort as BehaviorNodePort;
 
-            var outPort = this.InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Multi, typeof(float));
-            this.Add(outPort);
+            // Output port
+            var outCap = (Port.Capacity)descriptor.outputCapacity;
+
+            // Make sure decorators only get one output
+            if (Behavior.IsDecorator()) outCap = Port.Capacity.Single;
+
+            var outPort = this.InstantiatePort(Orientation.Vertical, Direction.Output, outCap, typeof(float));
+
+            if (descriptor.outputCapacity != BehaviorPortCapacity.None) this.Add(outPort);
             this.outPort = outPort as BehaviorNodePort;
 
             this.RefreshPorts();
@@ -97,6 +116,12 @@ namespace BehaviorGraphEditor
         public void ConnectChildBehavior(BehaviorGraphNode child)
         {
             if (!shouldManageBehavior) return;
+
+            // Tell the graph view to update the behavior tree entry
+            if (isEntry)
+            {
+                graphView.UpdateEntry(child.Behavior);
+            }
 
             Behavior.SetChild(child.Behavior, Behavior.ChildCount);
             MarkDirty();

@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: BehaviorGraph-Parallel
   m_EditorClassIdentifier: 
   title: Parallel
-  editorPath: Composite/Parallel
+  editorPath: Composites/Parallel
   icon: {fileID: 2800000, guid: 8e8caf810380c8840829be54c588e08c, type: 3}
-  color: {r: 1, g: 1, b: 1, a: 1}
+  color: {r: 1, g: 1, b: 1, a: 0}
+  inputCapacity: 0
+  outputCapacity: 1

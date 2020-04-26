@@ -73,7 +73,7 @@ namespace BehaviorGraphEditor
 
         private BehaviorGraphNode CreateNode(Behavior behavior)
         {
-            var node = new BehaviorGraphNode(behavior);
+            var node = new BehaviorGraphNode(behavior, this);
             return node;
         }
 
@@ -128,12 +128,23 @@ namespace BehaviorGraphEditor
 
         public void AddBehaviorNodes()
         {
+            var behaviors = behaviorTree.GetBehaviors();
+
+            // Make sure we have an entry
+            if (behaviors.Count <= 0 || behaviors.OfType<Entry>().FirstOrDefault() == null)
+                behaviors.Add(behaviorTree.AddBehavior<Entry>());
+
             foreach (var b in behaviorTree.GetBehaviors())
             {
                 var node = CreateNode(b);
                 nodeLookUp.Add(b, node);
                 AddElement(node);
             }
+        }
+
+        public void UpdateEntry(Behavior entry)
+        {
+            behaviorTree.entryNode = entry;
         }
 
         private void AddBehaviorConnections()
@@ -195,15 +206,21 @@ namespace BehaviorGraphEditor
                 foreach (var node in change.elementsToRemove.OfType<BehaviorGraphNode>())
                 {
                     // Remove all parent connections
-                    foreach (var edge in node.InPort.connections)
+                    if (node.InPort != null)
                     {
-                        if (!change.elementsToRemove.Contains(edge)) extraElementsToRemove.Add(edge);
+                        foreach (var edge in node.InPort.connections)
+                        {
+                            if (!change.elementsToRemove.Contains(edge)) extraElementsToRemove.Add(edge);
+                        }
                     }
 
                     // Remove all child connections
-                    foreach (var edge in node.OutPort.connections)
+                    if (node.OutPort != null)
                     {
-                        if (!change.elementsToRemove.Contains(edge)) extraElementsToRemove.Add(edge);
+                        foreach (var edge in node.OutPort.connections)
+                        {
+                            if (!change.elementsToRemove.Contains(edge)) extraElementsToRemove.Add(edge);
+                        }
                     }
 
                     // Mark the corresponding behavior to be deleted

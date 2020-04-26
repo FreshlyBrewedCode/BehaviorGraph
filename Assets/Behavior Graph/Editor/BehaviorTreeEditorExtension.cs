@@ -24,7 +24,7 @@ namespace BehaviorGraphEditor
             return newBehavior;
         }
 
-        // Overload generic overload
+        // Generic overload
         public static Behavior AddBehavior<T>(this BehaviorTree bt) where T : Behavior
         {
             return AddBehavior(bt, typeof(T));

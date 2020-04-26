@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: BehaviorGraph-Sequence
   m_EditorClassIdentifier: 
   title: Sequence
-  editorPath: Composite/Sequence
+  editorPath: Composites/Sequence
   icon: {fileID: 2800000, guid: bc6a9d4923f8d644f833f6ccbe588b0a, type: 3}
-  color: {r: 1, g: 1, b: 1, a: 1}
+  color: {r: 1, g: 1, b: 1, a: 0}
+  inputCapacity: 0
+  outputCapacity: 1
