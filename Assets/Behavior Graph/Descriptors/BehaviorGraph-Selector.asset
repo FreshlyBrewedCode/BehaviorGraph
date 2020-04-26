@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: BehaviorGraph-Selector
   m_EditorClassIdentifier: 
   title: Selector
-  editorPath: 
+  editorPath: Composite/Selector
   icon: {fileID: 2800000, guid: a44bcc85767599d4e80a44235f476bc4, type: 3}
   color: {r: 1, g: 1, b: 1, a: 1}

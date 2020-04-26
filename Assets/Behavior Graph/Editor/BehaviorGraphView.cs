@@ -5,6 +5,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 using BehaviorGraph;
+using System;
 
 namespace BehaviorGraphEditor
 {
@@ -42,6 +43,22 @@ namespace BehaviorGraphEditor
             AddBehaviorNodes();
             AddBehaviorConnections();
             AddSearchWindow();
+        }
+
+        public void AddBehavior(System.Type behaviorType, Vector2 position)
+        {
+            var b = behaviorTree.AddBehavior(behaviorType);
+            var node = CreateNode(b);
+
+            var mousePosition = graphWindow.rootVisualElement.ChangeCoordinatesTo(graphWindow.rootVisualElement.parent,
+                position - graphWindow.position.position);
+            var graphMousePosition = this.contentViewContainer.WorldToLocal(mousePosition);
+
+            node.SetPosition(new Rect(graphMousePosition, new Vector2(100, 100)));
+            this.AddElement(node);
+
+            node.MarkDirty();
+            EditorUtility.SetDirty(behaviorTree);
         }
 
         private BehaviorGraphNode CreateNode(Behavior behavior)

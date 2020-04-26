@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using BehaviorGraph;
+
 
 namespace BehaviorGraphEditor
 {
@@ -95,5 +97,76 @@ namespace BehaviorGraphEditor
             return null;
         }
 
+        public static BehaviorSearchCategory GetBehaviorCategoryTree()
+        {
+            var rootCategory = new BehaviorSearchCategory("root");
+            foreach (var descriptor in FindAllBehaviorDescriptors())
+            {
+                rootCategory.Append(descriptor);
+            }
+
+            return rootCategory;
+        }
+
+    }
+
+    public class BehaviorSearchCategory
+    {
+        public string name;
+        public List<BehaviorSearchCategory> subCategories;
+        public BehaviorDescriptor descriptor;
+        public bool IsBehavior => descriptor != null;
+
+        public BehaviorSearchCategory(string name)
+        {
+            this.name = name;
+            subCategories = new List<BehaviorSearchCategory>();
+        }
+
+        public BehaviorSearchCategory(string name, BehaviorDescriptor descriptor)
+        {
+            this.name = name;
+            this.descriptor = descriptor;
+        }
+
+        public void Append(BehaviorDescriptor descriptor)
+        {
+            Append(descriptor, descriptor.editorPath);
+        }
+
+        public void Append(BehaviorDescriptor descriptor, string path)
+        {
+            // Trim any whitespaces or slashes to get rid of empty categories
+            path = path.Trim(' ', '/');
+
+            // Get the position of the first slash, signaling the next Category in the path
+            int nextCat = path.IndexOf('/');
+
+            // if there is no slash it means we have reached the end of the path so we just add the descriptor
+            if (nextCat < 0)
+            {
+                subCategories.Add(new BehaviorSearchCategory(path, descriptor));
+                return;
+            }
+
+            // Get the name of first category in the current path
+            string catName = path.Substring(0, nextCat);
+
+            // try to get the child category or create a new one with that name
+            var cat = GetCategory(catName);
+            if (cat == null)
+            {
+                cat = new BehaviorSearchCategory(catName);
+                subCategories.Add(cat);
+            }
+
+            // Recursivly append the remaining categories
+            cat.Append(descriptor, path.Substring(nextCat + 1));
+        }
+
+        public BehaviorSearchCategory GetCategory(string name)
+        {
+            return subCategories.FirstOrDefault(c => c.name == name);
+        }
     }
 }
