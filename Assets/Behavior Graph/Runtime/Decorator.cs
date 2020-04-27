@@ -7,6 +7,7 @@ namespace BehaviorGraph
     /// Base class for all decorator behaviors. A decorator has only one direct child
     public class Decorator<T> : Behavior<T> where T : BehaviorContext, new()
     {
+        [SerializeField]
         protected Behavior child;
         public override int ChildCount => child == null ? 0 : 1;
 

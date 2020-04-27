@@ -50,6 +50,7 @@ MonoBehaviour:
   metaData:
     editorPosition: {x: 260, y: 60}
   descriptor: {fileID: 0}
+  child: {fileID: -7951827365409018694}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,7 +63,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 488b459b95c694a4bb546975a4a3132d, type: 3}
   m_Name: New Behavior Tree
   m_EditorClassIdentifier: 
-  entryNode: {fileID: 0}
+  entryNode: {fileID: -7951827365409018694}
 --- !u!114 &4463565481533607711
 MonoBehaviour:
   m_ObjectHideFlags: 0
